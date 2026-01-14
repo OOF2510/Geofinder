@@ -107,8 +107,8 @@ const Licences: React.FC = () => {
             {'\n'}
             For full licenses, refer to{' '}
             {renderLink(
-              'https://github.com/oof2510/GeoguessApp/blob/main/pnpm-lock.yaml',
-              'pnpm-lock.yaml',
+              'https://github.com/oof2510/GeoguessApp/blob/main/bun.lock',
+              'bun.lock',
             )}
             .
           </Text>

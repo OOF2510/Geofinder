@@ -184,13 +184,13 @@ For more details, refer to the `geoguess-api` repo.
 ### Prerequisites
 
 - **Node.js** `>= 20`
-- **pnpm** (preferred package manager for this project)
+- **bun** (package manager for this project)
 - React Native CLI setup with Android and/or iOS toolchains
 - Android Studio for Android builds/emulators
 - Xcode (only if you want to experiment with iOS builds)
 - (Optional) A Google Firebase project for App Check if testing on physical devices
 
-> **Important:** This project is set up to use **pnpm**. Please use `pnpm` instead of `npm` or classic `yarn` when installing and running scripts to avoid lockfile and dependency issues.
+> **Important:** This project is set up to use **bun**. Please use `bun` instead of `npm`, `pnpm`, or `yarn` when installing and running scripts to avoid lockfile and dependency issues.
 
 ### Install dependencies
 
@@ -209,13 +209,13 @@ If you insist on using another package manager, you’re on your own—only the 
 
 ```bash
 # Start Metro bundler
-pnpm start
+bun start
 
 # Run on Android (emulator or connected device)
-pnpm run android
+bun run android
 
 # (Optional / unsupported) Try running on iOS
-pnpm run ios
+bun run ios
 ```
 
 Android is the only officially supported platform. The iOS command is provided **for experimentation only** and may require additional setup or manual tweaks.
@@ -224,13 +224,13 @@ Android is the only officially supported platform. The iOS command is provided *
 
 ```bash
 # Lint the codebase
-pnpm run lint
+bun run lint
 
 # Run tests
-pnpm test
+bun test
 
 # Format with Prettier
-pnpm run prettier
+bun run prettier
 ```
 
 The app’s entry point is `src/App.tsx`. API base URLs and Firebase/App Check configuration live under `src/services` and related config files—adjust these if you’re pointing at a custom backend or Firebase project.
