@@ -1,4 +1,5 @@
 const { getDefaultConfig } = require('@react-native/metro-config');
+const { withNativeWind } = require('nativewind/metro');
 
 /**
  * Metro configuration
@@ -14,4 +15,4 @@ config.resolver = {
   unstable_enableSymlinks: true,
 };
 
-module.exports = config;
+module.exports = withNativeWind(config, { input: './global.css' });

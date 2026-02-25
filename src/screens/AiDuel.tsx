@@ -8,7 +8,6 @@ import React, {
 import {
   View,
   Text,
-  StyleSheet,
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
@@ -481,35 +480,38 @@ const AiDuel: React.FC = () => {
   }, [clearPersistedAiDuelState, navigation]);
 
   return (
-    <View style={styles.container}>
-      <SafeAreaView style={styles.container}>
+    <View className="flex-1 bg-[#121212]">
+      <SafeAreaView className="flex-1 bg-[#121212]">
         <ScrollView
-          contentContainerStyle={styles.scrollContainer}
+          contentContainerClassName="p-5 pb-10"
           keyboardShouldPersistTaps="handled"
         >
-          <Text style={styles.title}>GeoFinder AI Duel</Text>
-          <Text style={styles.subtitle}>
+          <Text className="mb-3 text-3xl font-bold text-white">
+            GeoFinder AI Duel
+          </Text>
+          <Text className="mb-4 text-sm leading-5 text-[#CCCCCC]">
             Challenge GeoFinder&apos;s AI opponent across a multi-round match.
             Guess the country, compare results, and see how the AI reasoned
             about the image.
           </Text>
 
-          <View style={styles.buttonRow}>
+          <View className="mb-5 flex-row flex-wrap">
             <TouchableOpacity
-              style={styles.secondaryButton}
+              className="mb-3 mr-3 rounded-3xl border border-[#444] bg-[#1E1E1E] px-[18px] py-2.5"
               onPress={handleReturnToMenu}
             >
-              <Text style={styles.buttonText}>Back to Main Menu</Text>
+              <Text className="text-center text-sm font-bold text-white">
+                Back to Main Menu
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[
-                styles.primaryButton,
-                loading ? styles.disabledButton : null,
-              ]}
+              className={`mb-3 mr-3 rounded-3xl bg-[#2196F3] px-[18px] py-2.5 ${
+                loading ? 'opacity-60' : ''
+              }`}
               onPress={handleRematch}
               disabled={loading}
             >
-              <Text style={styles.buttonText}>
+              <Text className="text-center text-sm font-bold text-white">
                 {loading
                   ? 'Starting match...'
                   : completed
@@ -520,45 +522,49 @@ const AiDuel: React.FC = () => {
           </View>
 
           {errorMessage ? (
-            <View style={styles.errorBox}>
-              <Text style={styles.errorText}>{errorMessage}</Text>
+            <View className="mb-4 rounded-xl border border-[#D32F2F] bg-[#3D1F1F] p-3">
+              <Text className="text-sm text-[#FFB4A4]">{errorMessage}</Text>
             </View>
           ) : null}
 
-          <View style={styles.mainCard}>
-            <View style={styles.roundHeader}>
-              <Text style={styles.roundLabel}>
+          <View className="mb-5 rounded-2xl border border-[#2A2A2A] bg-[#1E1E1E] p-4">
+            <View className="mb-3 flex-row items-center justify-between">
+              <Text className="text-base font-semibold text-white">
                 {roundLabel || 'Awaiting round'}
               </Text>
-              <View style={styles.scorePill}>
-                <Text style={styles.scoreValue}>You {scores.player ?? 0}</Text>
-                <Text style={styles.scoreDivider}>vs</Text>
-                <Text style={styles.scoreValue}>AI {scores.ai ?? 0}</Text>
+              <View className="flex-row items-center rounded-[20px] bg-[#252525] px-3 py-1.5">
+                <Text className="text-sm font-semibold text-white">
+                  You {scores.player ?? 0}
+                </Text>
+                <Text className="mx-2 text-xs text-[#888888]">vs</Text>
+                <Text className="text-sm font-semibold text-white">
+                  AI {scores.ai ?? 0}
+                </Text>
               </View>
             </View>
 
             <TouchableOpacity
-              style={styles.imageWrapper}
+              className="mb-3 w-full overflow-hidden rounded-xl border border-[#2A2A2A] bg-black"
               onPress={() => displayedImageUrl && setZoomImage(true)}
               activeOpacity={displayedImageUrl ? 0.85 : 1}
             >
               {displayedImageUrl ? (
                 <Image
                   source={{ uri: displayedImageUrl }}
-                  style={styles.image}
+                  className="h-[200px] w-full"
                   resizeMode="cover"
                 />
               ) : (
-                <View style={styles.imagePlaceholder}>
+                <View className="h-[200px] items-center justify-center bg-[#0D0D0D]">
                   {loading ? (
                     <>
                       <ActivityIndicator size="large" color="#FFFFFF" />
-                      <Text style={styles.imagePlaceholderText}>
+                      <Text className="mt-2.5 text-sm text-[#CCCCCC]">
                         Loading round...
                       </Text>
                     </>
                   ) : (
-                    <Text style={styles.imagePlaceholderText}>
+                    <Text className="mt-2.5 text-sm text-[#CCCCCC]">
                       Ready when you are
                     </Text>
                   )}
@@ -566,7 +572,7 @@ const AiDuel: React.FC = () => {
               )}
             </TouchableOpacity>
 
-            <Text style={styles.attribution}>
+            <Text className="mb-4 text-center text-xs text-[#888888]">
               {displayedContributor
                 ? `Image by ${displayedContributor} at Mapillary, CC-BY-SA`
                 : 'Images provided via Mapillary'}
@@ -574,9 +580,11 @@ const AiDuel: React.FC = () => {
 
             {status === 'in-progress' && currentRound && !latestResult && (
               <>
-                <Text style={styles.prompt}>Guess the country</Text>
+                <Text className="mb-2.5 text-base text-white">
+                  Guess the country
+                </Text>
                 <TextInput
-                  style={styles.input}
+                  className="mb-3 h-[50px] w-full rounded-[10px] border border-[#444] bg-[#1E1E1E] px-4 text-base text-white"
                   value={guess}
                   onChangeText={setGuess}
                   onSubmitEditing={() => handleSubmitGuess()}
@@ -586,16 +594,13 @@ const AiDuel: React.FC = () => {
                   autoCorrect={false}
                 />
                 <TouchableOpacity
-                  style={[
-                    styles.submitButton,
-                    !guessReady || !canSubmitGuess
-                      ? styles.disabledButton
-                      : null,
-                  ]}
+                  className={`items-center justify-center rounded-3xl bg-[#046C4E] px-[18px] py-3 ${
+                    !guessReady || !canSubmitGuess ? 'opacity-60' : ''
+                  }`}
                   onPress={handleSubmitGuess}
                   disabled={!guessReady || !canSubmitGuess}
                 >
-                  <Text style={styles.buttonText}>
+                  <Text className="text-center text-sm font-bold text-white">
                     {submitting ? 'Submitting...' : 'Lock in guess'}
                   </Text>
                 </TouchableOpacity>
@@ -604,52 +609,61 @@ const AiDuel: React.FC = () => {
 
             {awaitingNextRound && (
               <TouchableOpacity
-                style={styles.nextButton}
+                className="items-center justify-center rounded-3xl bg-[#2196F3] px-[18px] py-3"
                 onPress={handleNextRound}
               >
-                <Text style={styles.buttonText}>Next round</Text>
+                <Text className="text-center text-sm font-bold text-white">
+                  Next round
+                </Text>
               </TouchableOpacity>
             )}
 
             {completed && (
-              <View style={styles.completeBanner}>
-                <Text style={styles.completeText}>
+              <View className="mt-3 rounded-xl border border-[#2E7D32] bg-[#1B422E] p-3">
+                <Text className="text-center text-sm text-[#A5D6A7]">
                   Match complete! Want a rematch?
                 </Text>
               </View>
             )}
           </View>
 
-          <View style={styles.sectionCard}>
-            <Text style={styles.sectionTitle}>Round insights</Text>
+          <View className="mb-5 rounded-2xl border border-[#2A2A2A] bg-[#1E1E1E] p-4">
+            <Text className="mb-3 text-lg font-semibold text-white">
+              Round insights
+            </Text>
             {latestResult ? (
-              <View style={styles.insightsBody}>
-                <Text style={styles.insightLine}>
-                  <Text style={styles.insightLabel}>Correct country: </Text>
+              <View className="mt-1">
+                <Text className="mb-1 text-sm text-[#DDDDDD]">
+                  <Text className="font-semibold text-white">
+                    Correct country:{' '}
+                  </Text>
                   {formatCountry(latestResult.correctCountry?.name)}
                   {latestResult.correctCountry?.code
                     ? ` (${latestResult.correctCountry.code})`
                     : ''}
                 </Text>
                 {coordinateText && (
-                  <Text style={styles.insightLine}>
-                    <Text style={styles.insightLabel}>Coordinates: </Text>
+                  <Text className="mb-1 text-sm text-[#DDDDDD]">
+                    <Text className="font-semibold text-white">
+                      Coordinates:{' '}
+                    </Text>
                     {coordinateText}
                   </Text>
                 )}
                 <View
-                  style={[
-                    styles.resultBox,
+                  className={`mt-2 rounded-xl border p-[14px] ${
                     latestResult.playerResult?.isCorrect
-                      ? styles.resultBoxCorrect
-                      : styles.resultBoxIncorrect,
-                  ]}
+                      ? 'border-[rgba(76,175,80,0.4)] bg-[rgba(76,175,80,0.15)]'
+                      : 'border-[rgba(244,67,54,0.4)] bg-[rgba(244,67,54,0.15)]'
+                  }`}
                 >
-                  <Text style={styles.resultTitle}>Your guess</Text>
-                  <Text style={styles.resultValue}>
+                  <Text className="text-xs uppercase tracking-[2px] text-white">
+                    Your guess
+                  </Text>
+                  <Text className="mt-1.5 text-lg font-semibold text-white">
                     {latestResult.playerResult?.guess || 'No guess'}
                   </Text>
-                  <Text style={styles.resultStatus}>
+                  <Text className="mt-1 text-xs text-white">
                     {latestResult.playerResult?.isCorrect
                       ? 'Correct'
                       : 'Incorrect'}
@@ -657,26 +671,28 @@ const AiDuel: React.FC = () => {
                 </View>
 
                 {latestResult.aiResult && (
-                  <View style={styles.aiResultBox}>
-                    <Text style={styles.aiResultTitle}>AI guess</Text>
-                    <Text style={styles.aiResultValue}>
+                  <View className="mt-3 rounded-xl border border-[rgba(33,150,243,0.4)] bg-[rgba(33,150,243,0.15)] p-[14px]">
+                    <Text className="text-xs uppercase tracking-[2px] text-[#90CAF9]">
+                      AI guess
+                    </Text>
+                    <Text className="mt-1.5 text-lg font-semibold text-white">
                       {formatCountry(latestResult.aiResult.countryName)}
                     </Text>
-                    <Text style={styles.aiResultMeta}>
+                    <Text className="mt-1 text-xs text-[#90CAF9]">
                       Confidence{' '}
                       {formatConfidence(latestResult.aiResult.confidence)}
                     </Text>
                     {latestResult.aiResult.explanation ? (
-                      <Text style={styles.aiResultExplanation}>
+                      <Text className="mt-2.5 text-sm leading-5 text-[#E3F2FD]">
                         {latestResult.aiResult.explanation}
                       </Text>
                     ) : (
-                      <Text style={styles.aiResultExplanation}>
+                      <Text className="mt-2.5 text-sm leading-5 text-[#E3F2FD]">
                         No explanation provided.
                       </Text>
                     )}
                     {latestResult.aiResult.fallbackReason ? (
-                      <Text style={styles.aiResultFallback}>
+                      <Text className="mt-2 text-xs text-[#90CAF9]">
                         Fallback reason: {latestResult.aiResult.fallbackReason}
                       </Text>
                     ) : null}
@@ -684,16 +700,18 @@ const AiDuel: React.FC = () => {
                 )}
               </View>
             ) : (
-              <Text style={styles.sectionHint}>
+              <Text className="text-sm leading-5 text-[#AAAAAA]">
                 Submit a guess to see if you can beat the AI!
               </Text>
             )}
           </View>
 
-          <View style={styles.sectionCard}>
-            <Text style={styles.sectionTitle}>Match history</Text>
+          <View className="mb-5 rounded-2xl border border-[#2A2A2A] bg-[#1E1E1E] p-4">
+            <Text className="mb-3 text-lg font-semibold text-white">
+              Match history
+            </Text>
             {history.length === 0 ? (
-              <Text style={styles.sectionHint}>
+              <Text className="text-sm leading-5 text-[#AAAAAA]">
                 Results will appear here after you complete your first round.
               </Text>
             ) : (
@@ -701,53 +719,56 @@ const AiDuel: React.FC = () => {
                 const playerCorrect = round.player?.isCorrect;
                 const aiCorrect = round.ai?.isCorrect;
                 return (
-                  <View key={round.roundIndex} style={styles.historyEntry}>
-                    <View style={styles.historyHeader}>
-                      <Text style={styles.historyRoundLabel}>
+                  <View
+                    key={round.roundIndex}
+                    className="mb-3 rounded-xl border border-[#2F2F2F] bg-[#232323] p-[14px]"
+                  >
+                    <View className="mb-2.5 flex-row items-center justify-between">
+                      <Text className="text-sm font-semibold text-white">
                         Round {round.roundIndex + 1}
                       </Text>
-                      <Text style={styles.historyCountry}>
+                      <Text className="text-[13px] text-[#BBBBBB]">
                         {formatCountry(round.correctCountry?.name)}
                         {round.correctCountry?.code
                           ? ` (${round.correctCountry.code})`
                           : ''}
                       </Text>
                     </View>
-                    <View style={styles.historyGuessRow}>
+                    <View className="flex-row justify-start">
                       <View
-                        style={[
-                          styles.historyGuessBox,
-                          styles.historyGuessBoxLeft,
+                        className={`mr-1.5 flex-1 rounded-xl border p-3 ${
                           playerCorrect
-                            ? styles.historyGuessPlayerCorrect
-                            : styles.historyGuessPlayerIncorrect,
-                        ]}
+                            ? 'border-[rgba(76,175,80,0.4)] bg-[rgba(76,175,80,0.15)]'
+                            : 'border-[rgba(244,67,54,0.4)] bg-[rgba(244,67,54,0.15)]'
+                        }`}
                       >
-                        <Text style={styles.historyGuessTitle}>You</Text>
-                        <Text style={styles.historyGuessValue}>
+                        <Text className="text-xs uppercase tracking-[2px] text-white">
+                          You
+                        </Text>
+                        <Text className="mt-1.5 text-[15px] font-semibold text-white">
                           {round.player?.guess || 'No guess'}
                         </Text>
-                        <Text style={styles.historyGuessNote}>
+                        <Text className="mt-1 text-xs text-white">
                           {playerCorrect ? 'Correct' : 'Incorrect'}
                         </Text>
                       </View>
                       <View
-                        style={[
-                          styles.historyGuessBox,
-                          styles.historyGuessBoxRight,
+                        className={`ml-1.5 flex-1 rounded-xl border p-3 ${
                           aiCorrect
-                            ? styles.historyGuessAiCorrect
-                            : styles.historyGuessAiIncorrect,
-                        ]}
+                            ? 'border-[rgba(33,150,243,0.4)] bg-[rgba(33,150,243,0.15)]'
+                            : 'border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.05)]'
+                        }`}
                       >
-                        <Text style={styles.historyGuessTitle}>AI</Text>
-                        <Text style={styles.historyGuessValue}>
+                        <Text className="text-xs uppercase tracking-[2px] text-white">
+                          AI
+                        </Text>
+                        <Text className="mt-1.5 text-[15px] font-semibold text-white">
                           {round.ai
                             ? formatCountry(round.ai.countryName)
                             : 'No guess'}
                         </Text>
                         {round.ai ? (
-                          <Text style={styles.historyGuessMeta}>
+                          <Text className="mt-1 text-xs text-[#90CAF9]">
                             Confidence {formatConfidence(round.ai.confidence)}
                           </Text>
                         ) : null}
@@ -777,361 +798,5 @@ const AiDuel: React.FC = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#121212',
-  },
-  scrollContainer: {
-    padding: 20,
-    paddingBottom: 40,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-    marginBottom: 12,
-  },
-  subtitle: {
-    color: '#CCCCCC',
-    fontSize: 14,
-    lineHeight: 20,
-    marginBottom: 16,
-  },
-  buttonRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginBottom: 20,
-  },
-  primaryButton: {
-    backgroundColor: '#2196F3',
-    borderRadius: 24,
-    paddingVertical: 10,
-    paddingHorizontal: 18,
-    marginRight: 12,
-    marginBottom: 12,
-  },
-  secondaryButton: {
-    backgroundColor: '#1E1E1E',
-    borderColor: '#444',
-    borderWidth: 1,
-    borderRadius: 24,
-    paddingVertical: 10,
-    paddingHorizontal: 18,
-    marginRight: 12,
-    marginBottom: 12,
-  },
-  disabledButton: {
-    opacity: 0.6,
-  },
-  buttonText: {
-    color: '#FFFFFF',
-    fontSize: 14,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  errorBox: {
-    backgroundColor: '#3D1F1F',
-    borderColor: '#D32F2F',
-    borderWidth: 1,
-    borderRadius: 12,
-    padding: 12,
-    marginBottom: 16,
-  },
-  errorText: {
-    color: '#FFB4A4',
-    fontSize: 14,
-  },
-  mainCard: {
-    backgroundColor: '#1E1E1E',
-    borderRadius: 16,
-    padding: 16,
-    borderColor: '#2A2A2A',
-    borderWidth: 1,
-    marginBottom: 20,
-  },
-  roundHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  roundLabel: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  scorePill: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#252525',
-    borderRadius: 20,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-  },
-  scoreValue: {
-    color: '#FFFFFF',
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  scoreDivider: {
-    color: '#888888',
-    fontSize: 12,
-    marginHorizontal: 8,
-  },
-  imageWrapper: {
-    width: '100%',
-    borderRadius: 12,
-    overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: '#2A2A2A',
-    marginBottom: 12,
-    backgroundColor: '#000',
-  },
-  image: {
-    width: '100%',
-    height: 200,
-  },
-  imagePlaceholder: {
-    height: 200,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#0D0D0D',
-  },
-  imagePlaceholderText: {
-    color: '#CCCCCC',
-    marginTop: 10,
-    fontSize: 14,
-  },
-  attribution: {
-    color: '#888888',
-    fontSize: 12,
-    textAlign: 'center',
-    marginBottom: 16,
-  },
-  prompt: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    marginBottom: 10,
-  },
-  input: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#1E1E1E',
-    borderColor: '#444',
-    borderWidth: 1,
-    borderRadius: 10,
-    marginBottom: 12,
-    paddingHorizontal: 15,
-    color: '#FFFFFF',
-    fontSize: 16,
-  },
-  submitButton: {
-    backgroundColor: '#046C4E',
-    borderRadius: 24,
-    paddingVertical: 12,
-    paddingHorizontal: 18,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  nextButton: {
-    backgroundColor: '#2196F3',
-    borderRadius: 24,
-    paddingVertical: 12,
-    paddingHorizontal: 18,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  completeBanner: {
-    backgroundColor: '#1B422E',
-    borderColor: '#2E7D32',
-    borderWidth: 1,
-    borderRadius: 12,
-    padding: 12,
-    marginTop: 12,
-  },
-  completeText: {
-    color: '#A5D6A7',
-    textAlign: 'center',
-    fontSize: 14,
-  },
-  sectionCard: {
-    backgroundColor: '#1E1E1E',
-    borderRadius: 16,
-    padding: 16,
-    borderColor: '#2A2A2A',
-    borderWidth: 1,
-    marginBottom: 20,
-  },
-  sectionTitle: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 12,
-  },
-  sectionHint: {
-    color: '#AAAAAA',
-    fontSize: 14,
-    lineHeight: 20,
-  },
-  insightsBody: {
-    marginTop: 4,
-  },
-  insightLine: {
-    color: '#DDDDDD',
-    fontSize: 14,
-    marginBottom: 4,
-  },
-  insightLabel: {
-    color: '#FFFFFF',
-    fontWeight: '600',
-  },
-  resultBox: {
-    borderRadius: 12,
-    padding: 14,
-    marginTop: 8,
-  },
-  resultBoxCorrect: {
-    backgroundColor: 'rgba(76, 175, 80, 0.15)',
-    borderWidth: 1,
-    borderColor: 'rgba(76, 175, 80, 0.4)',
-  },
-  resultBoxIncorrect: {
-    backgroundColor: 'rgba(244, 67, 54, 0.15)',
-    borderWidth: 1,
-    borderColor: 'rgba(244, 67, 54, 0.4)',
-  },
-  resultTitle: {
-    color: '#FFFFFF',
-    fontSize: 12,
-    letterSpacing: 2,
-    textTransform: 'uppercase',
-  },
-  resultValue: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: '600',
-    marginTop: 6,
-  },
-  resultStatus: {
-    color: '#FFFFFF',
-    fontSize: 12,
-    marginTop: 4,
-  },
-  aiResultBox: {
-    marginTop: 12,
-    borderRadius: 12,
-    padding: 14,
-    backgroundColor: 'rgba(33, 150, 243, 0.15)',
-    borderWidth: 1,
-    borderColor: 'rgba(33, 150, 243, 0.4)',
-  },
-  aiResultTitle: {
-    color: '#90CAF9',
-    fontSize: 12,
-    letterSpacing: 2,
-    textTransform: 'uppercase',
-  },
-  aiResultValue: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: '600',
-    marginTop: 6,
-  },
-  aiResultMeta: {
-    color: '#90CAF9',
-    fontSize: 12,
-    marginTop: 4,
-  },
-  aiResultExplanation: {
-    color: '#E3F2FD',
-    fontSize: 14,
-    marginTop: 10,
-    lineHeight: 20,
-  },
-  aiResultFallback: {
-    color: '#90CAF9',
-    fontSize: 12,
-    marginTop: 8,
-  },
-  historyEntry: {
-    backgroundColor: '#232323',
-    borderRadius: 12,
-    padding: 14,
-    borderWidth: 1,
-    borderColor: '#2F2F2F',
-    marginBottom: 12,
-  },
-  historyHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  historyRoundLabel: {
-    color: '#FFFFFF',
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  historyCountry: {
-    color: '#BBBBBB',
-    fontSize: 13,
-  },
-  historyGuessRow: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-  },
-  historyGuessBoxLeft: {
-    marginRight: 6,
-  },
-  historyGuessBoxRight: {
-    marginLeft: 6,
-  },
-  historyGuessBox: {
-    flex: 1,
-    borderRadius: 12,
-    padding: 12,
-    borderWidth: 1,
-  },
-  historyGuessPlayerCorrect: {
-    borderColor: 'rgba(76, 175, 80, 0.4)',
-    backgroundColor: 'rgba(76, 175, 80, 0.15)',
-  },
-  historyGuessPlayerIncorrect: {
-    borderColor: 'rgba(244, 67, 54, 0.4)',
-    backgroundColor: 'rgba(244, 67, 54, 0.15)',
-  },
-  historyGuessAiCorrect: {
-    borderColor: 'rgba(33, 150, 243, 0.4)',
-    backgroundColor: 'rgba(33, 150, 243, 0.15)',
-  },
-  historyGuessAiIncorrect: {
-    borderColor: 'rgba(255, 255, 255, 0.1)',
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-  },
-  historyGuessTitle: {
-    color: '#FFFFFF',
-    fontSize: 12,
-    letterSpacing: 2,
-    textTransform: 'uppercase',
-  },
-  historyGuessValue: {
-    color: '#FFFFFF',
-    fontSize: 15,
-    fontWeight: '600',
-    marginTop: 6,
-  },
-  historyGuessNote: {
-    color: '#FFFFFF',
-    fontSize: 12,
-    marginTop: 4,
-  },
-  historyGuessMeta: {
-    color: '#90CAF9',
-    fontSize: 12,
-    marginTop: 4,
-  },
-});
 
 export default AiDuel;

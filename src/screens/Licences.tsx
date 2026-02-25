@@ -4,7 +4,6 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
-  StyleSheet,
   SafeAreaView,
   Linking,
 } from 'react-native';
@@ -26,45 +25,57 @@ const Licences: React.FC = () => {
   };
 
   const renderLink = (url: string, label?: string) => (
-    <Text key={url} style={styles.link} onPress={() => handleOpenLink(url)}>
+    <Text
+      key={url}
+      className="text-[#4da6ff] underline"
+      onPress={() => handleOpenLink(url)}
+    >
       {label ?? url}
     </Text>
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-          <Text style={styles.backButtonText}>← Back</Text>
+    <SafeAreaView className="flex-1 bg-[#121212]">
+      <View className="flex-row items-center justify-between border-b border-[rgba(255,255,255,0.1)] px-5 py-2.5">
+        <TouchableOpacity onPress={handleBack} className="p-2.5">
+          <Text className="text-base font-bold text-[rgba(255,255,255,0.9)]">
+            ← Back
+          </Text>
         </TouchableOpacity>
-        <Text style={styles.title}>Licenses</Text>
-        <View style={styles.placeholder} />
+        <Text className="text-xl font-bold text-white">Licenses</Text>
+        <View className="w-[60px]" />
       </View>
       <ScrollView
-        style={styles.scrollContainer}
-        contentContainerStyle={styles.content}
+        className="flex-1"
+        contentContainerClassName="p-5"
       >
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Mapillary Images</Text>
-          <Text style={styles.licenseText}>
+        <View className="mb-5 border-b border-[rgba(255,255,255,0.1)] pb-2.5">
+          <Text className="mb-2.5 text-lg font-bold text-white">
+            Mapillary Images
+          </Text>
+          <Text className="text-sm leading-5 text-[rgba(255,255,255,0.8)]">
             Images provided via Mapillary, licensed under CC-BY-SA 4.0.{'\n'}
             For more details:{' '}
             {renderLink('https://www.mapillary.com/app/licenses')}
           </Text>
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>OpenStreetMap Data</Text>
-          <Text style={styles.licenseText}>
+        <View className="mb-5 border-b border-[rgba(255,255,255,0.1)] pb-2.5">
+          <Text className="mb-2.5 text-lg font-bold text-white">
+            OpenStreetMap Data
+          </Text>
+          <Text className="text-sm leading-5 text-[rgba(255,255,255,0.8)]">
             Map data provided by OpenStreetMap, licensed under ODbL 1.0.{'\n'}
             For more details:{' '}
             {renderLink('https://www.openstreetmap.org/copyright')}
           </Text>
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Fallback Map Data</Text>
-          <Text style={styles.licenseText}>
+        <View className="mb-5 border-b border-[rgba(255,255,255,0.1)] pb-2.5">
+          <Text className="mb-2.5 text-lg font-bold text-white">
+            Fallback Map Data
+          </Text>
+          <Text className="text-sm leading-5 text-[rgba(255,255,255,0.8)]">
             Fallback map data provided by:{'\n'}-{' '}
             {renderLink(
               'https://www.bigdatacloud.com/terms',
@@ -84,9 +95,11 @@ const Licences: React.FC = () => {
           </Text>
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>AI Models</Text>
-          <Text style={styles.licenseText}>
+        <View className="mb-5 border-b border-[rgba(255,255,255,0.1)] pb-2.5">
+          <Text className="mb-2.5 text-lg font-bold text-white">
+            AI Models
+          </Text>
+          <Text className="text-sm leading-5 text-[rgba(255,255,255,0.8)]">
             AI models used for AI 1v1 provided by OpenRouter:{'\n'}- Mistral
             Small 3.1 24B Instruct: licensed under Apache-2.0{'\n'}- Google
             Gemma 3 27B: Gemma is provided under and subject to the Gemma Terms
@@ -98,9 +111,11 @@ const Licences: React.FC = () => {
           </Text>
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>App Libraries</Text>
-          <Text style={styles.licenseText}>
+        <View className="mb-5 border-b border-[rgba(255,255,255,0.1)] pb-2.5">
+          <Text className="mb-2.5 text-lg font-bold text-white">
+            App Libraries
+          </Text>
+          <Text className="text-sm leading-5 text-[rgba(255,255,255,0.8)]">
             This app uses the following open-source libraries:{'\n'}- React
             Native: MIT License{'\n'}- React Navigation: MIT License{'\n'}- And
             others as per their package.json files.{'\n'}
@@ -117,64 +132,5 @@ const Licences: React.FC = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#121212',
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255,255,255,0.1)',
-  },
-  backButton: {
-    padding: 10,
-  },
-  backButtonText: {
-    color: 'rgba(255,255,255,0.9)',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: 'white',
-  },
-  placeholder: {
-    width: 60, // Placeholder for alignment
-  },
-  scrollContainer: {
-    flex: 1,
-  },
-  content: {
-    padding: 20,
-  },
-  section: {
-    marginBottom: 20,
-    paddingBottom: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255,255,255,0.1)',
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: 'white',
-    marginBottom: 10,
-  },
-  licenseText: {
-    color: 'rgba(255,255,255,0.8)',
-    fontSize: 14,
-    lineHeight: 20,
-  },
-  link: {
-    color: '#4da6ff',
-    textDecorationLine: 'underline',
-  },
-});
 
 export default Licences;

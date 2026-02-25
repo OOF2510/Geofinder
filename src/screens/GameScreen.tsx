@@ -5,7 +5,6 @@ import {
   Image,
   TextInput,
   Alert,
-  StyleSheet,
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
@@ -439,151 +438,6 @@ const GameScreen: React.FC = () => {
     navigation.navigate('MainMenu');
   };
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#121212',
-    },
-    scrollContainer: {
-      alignItems: 'center',
-      padding: 20,
-    },
-    title: {
-      fontSize: 28,
-      fontWeight: 'bold',
-      marginBottom: 20,
-      marginTop: 20,
-      color: '#FFFFFF',
-    },
-    imageContainer: {
-      width: '100%',
-      alignItems: 'center',
-      marginBottom: 20,
-    },
-    image: {
-      width: '100%',
-      height: 200,
-      borderRadius: 8,
-    },
-    prompt: {
-      fontSize: 18,
-      marginBottom: 10,
-      color: '#FFFFFF',
-    },
-    input: {
-      width: '80%',
-      height: 50,
-      backgroundColor: '#1E1E1E',
-      borderColor: '#444',
-      borderWidth: 1,
-      borderRadius: 8,
-      marginBottom: 15,
-      paddingHorizontal: 15,
-      color: '#FFFFFF',
-      fontSize: 16,
-    },
-    button: {
-      width: '80%',
-      marginBottom: 15,
-      borderRadius: 25,
-      backgroundColor: '#4CAF50',
-      paddingVertical: 12,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    buttonNext: {
-      width: '80%',
-      marginBottom: 15,
-      borderRadius: 25,
-      backgroundColor: '#2196F3',
-      paddingVertical: 12,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    buttonText: {
-      color: '#FFFFFF',
-      fontSize: 16,
-      fontWeight: 'bold',
-      textAlign: 'center',
-    },
-    feedback: {
-      fontSize: 16,
-      marginVertical: 15,
-      textAlign: 'center',
-      color: '#FFFFFF',
-    },
-    incorrectTitle: {
-      fontSize: 16,
-      fontWeight: 'bold',
-      marginTop: 10,
-      color: '#FFFFFF',
-    },
-    incorrect: {
-      fontSize: 14,
-      color: '#FF6B6B',
-    },
-    scoreContainer: {
-      position: 'absolute',
-      bottom: 20,
-      left: 20,
-      right: 20,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-    },
-    scoreText: {
-      color: '#FFFFFF',
-      fontSize: 16,
-    },
-    attribution: {
-      position: 'absolute',
-      bottom: 70,
-      left: 20,
-      right: 20,
-      color: '#888888',
-      fontSize: 12,
-      textAlign: 'center',
-    },
-  });
-
-  const gameSummaryStyles = StyleSheet.create({
-    modalContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: 'rgba(0,0,0,0.8)',
-    },
-    summaryBox: {
-      backgroundColor: '#1E1E1E',
-      padding: 20,
-      borderRadius: 10,
-      width: '80%',
-      alignItems: 'center',
-    },
-    summaryTitle: {
-      fontSize: 24,
-      fontWeight: 'bold',
-      color: '#FFFFFF',
-      marginBottom: 20,
-    },
-    summaryText: {
-      fontSize: 18,
-      color: '#FFFFFF',
-      marginBottom: 10,
-      textAlign: 'center',
-    },
-    highScoreText: {
-      fontSize: 18,
-      color: '#66ff00af',
-      fontWeight: 'bold',
-      marginBottom: 20,
-    },
-    buttonContainer: {
-      width: '100%',
-      marginTop: 10,
-      alignItems: 'center',
-    },
-  });
-
   useEffect(() => {
     lastStateRef.current = {
       imageUrl,
@@ -745,84 +599,95 @@ const GameScreen: React.FC = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <SafeAreaView style={styles.container}>
+    <View className="flex-1 bg-[#121212]">
+      <SafeAreaView className="flex-1 bg-[#121212]">
         <ScrollView
-          contentContainerStyle={styles.scrollContainer}
+          contentContainerClassName="items-center p-5"
           keyboardShouldPersistTaps="handled"
         >
-          <Text style={styles.title}>GeoFinder</Text>
-          <Text style={{ color: '#FFF', marginBottom: 10 }}>
+          <Text className="mb-5 mt-5 text-3xl font-bold text-white">
+            GeoFinder
+          </Text>
+          <Text className="mb-2.5 text-white">
             Round {roundNumber}/{TOTAL_ROUNDS}
           </Text>
-          {loading && <Text style={{ color: '#FFF' }}>Loading...</Text>}
+          {loading && <Text className="text-white">Loading...</Text>}
           {imageUrl && (
             <TouchableOpacity
-              style={styles.imageContainer}
+              className="mb-5 w-full items-center"
               onPress={() => setZoomImage(true)}
             >
               <Image
                 source={{ uri: imageUrl ?? undefined }}
-                style={styles.image}
+                className="h-[200px] w-full rounded-lg"
                 resizeMode="cover"
               />
             </TouchableOpacity>
           )}
           {!gameOver && imageUrl && (
             <>
-              <Text style={styles.prompt}>
+              <Text className="mb-2.5 text-lg text-white">
                 Guess the country! (Guess {guessCount + 1}/3)
               </Text>
               <TextInput
-                style={styles.input}
+                className="mb-4 h-[50px] w-4/5 rounded-lg border border-[#444] bg-[#1E1E1E] px-4 text-base text-white"
                 value={guess}
                 onChangeText={setGuess}
                 onSubmitEditing={submitGuess}
                 placeholder="Enter country name"
                 placeholderTextColor="#888"
               />
-              <TouchableOpacity style={styles.button} onPress={submitGuess}>
-                <Text style={styles.buttonText}>Submit Guess</Text>
+              <TouchableOpacity
+                className="mb-4 w-4/5 items-center justify-center rounded-full bg-[#4CAF50] py-3"
+                onPress={submitGuess}
+              >
+                <Text className="text-center text-base font-bold text-white">
+                  Submit Guess
+                </Text>
               </TouchableOpacity>
             </>
           )}
           {feedback && (
             <Text
-              style={[
-                styles.feedback,
-                feedback.includes('✅')
-                  ? { color: '#4CAF50' }
-                  : { color: '#FF6B6B' },
-              ]}
+              className={`my-4 text-center text-base ${
+                feedback.includes('✅') ? 'text-[#4CAF50]' : 'text-[#FF6B6B]'
+              }`}
             >
               {feedback}
             </Text>
           )}
           {incorrectGuesses.length > 0 && (
-            <View style={{ width: '80%' }}>
-              <Text style={styles.incorrectTitle}>Previous Guesses:</Text>
+            <View className="w-4/5">
+              <Text className="mt-2.5 text-base font-bold text-white">
+                Previous Guesses:
+              </Text>
               {incorrectGuesses.map((g: string, i: number) => (
-                <Text key={i} style={styles.incorrect}>
+                <Text key={i} className="text-sm text-[#FF6B6B]">
                   • {g}
                 </Text>
               ))}
             </View>
           )}
           {gameOver && completedRounds < TOTAL_ROUNDS && !showGameSummary && (
-            <TouchableOpacity style={styles.buttonNext} onPress={startGame}>
-              <Text style={styles.buttonText}>Next Game</Text>
+            <TouchableOpacity
+              className="mb-4 w-4/5 items-center justify-center rounded-full bg-[#2196F3] py-3"
+              onPress={startGame}
+            >
+              <Text className="text-center text-base font-bold text-white">
+                Next Game
+              </Text>
             </TouchableOpacity>
           )}
         </ScrollView>
 
-        <Text style={styles.attribution}>
+        <Text className="absolute bottom-[70px] left-5 right-5 text-center text-xs text-[#888888]">
           {contributor
             ? `Image by ${contributor} at Mapillary, CC-BY-SA`
             : 'Images provided via Mapillary'}
         </Text>
-        <View style={styles.scoreContainer}>
-          <Text style={styles.scoreText}>High Score: {highScore}</Text>
-          <Text style={styles.scoreText}>Score: {currentScore}</Text>
+        <View className="absolute bottom-5 left-5 right-5 flex-row justify-between">
+          <Text className="text-base text-white">High Score: {highScore}</Text>
+          <Text className="text-base text-white">Score: {currentScore}</Text>
         </View>
 
         <Modal
@@ -845,51 +710,47 @@ const GameScreen: React.FC = () => {
           transparent={true}
           animationType="slide"
         >
-          <View style={gameSummaryStyles.modalContainer}>
-            <View style={gameSummaryStyles.summaryBox}>
-              <Text style={gameSummaryStyles.summaryTitle}>Game Complete!</Text>
-              <Text style={gameSummaryStyles.summaryText}>
+          <View className="flex-1 items-center justify-center bg-[rgba(0,0,0,0.8)]">
+            <View className="w-4/5 items-center rounded-[10px] bg-[#1E1E1E] p-5">
+              <Text className="mb-5 text-2xl font-bold text-white">
+                Game Complete!
+              </Text>
+              <Text className="mb-2.5 text-center text-lg text-white">
                 You got {correctAnswers} out of {TOTAL_ROUNDS} correct!
               </Text>
-              <Text style={gameSummaryStyles.summaryText}>
+              <Text className="mb-2.5 text-center text-lg text-white">
                 Final Score: {currentScore}
               </Text>
               {currentScore > highScore && (
-                <Text style={gameSummaryStyles.highScoreText}>
+                <Text className="mb-5 text-lg font-bold text-[#66ff00af]">
                   New High Score! 🎉
                 </Text>
               )}
-              <View style={gameSummaryStyles.buttonContainer}>
+              <View className="mt-2.5 w-full items-center">
                 <TouchableOpacity
-                  style={{
-                    marginBottom: 10,
-                    paddingHorizontal: 16,
-                    paddingVertical: 8,
-                    borderRadius: 16,
-                    backgroundColor: submitToLeaderboard
-                      ? '#4CAF50'
-                      : '#9E9E9E',
-                  }}
+                  className={`mb-2.5 rounded-2xl px-4 py-2 ${
+                    submitToLeaderboard ? 'bg-[#4CAF50]' : 'bg-[#9E9E9E]'
+                  }`}
                   onPress={() => setSubmitToLeaderboard(prev => !prev)}
                 >
-                  <Text style={{ color: '#FFFFFF', fontSize: 14 }}>
+                  <Text className="text-sm text-white">
                     {submitToLeaderboard
                       ? 'Leaderboard: ON'
                       : 'Leaderboard: OFF'}
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={[styles.button, { backgroundColor: '#4CAF50' }]}
+                  className="mb-4 w-4/5 items-center justify-center rounded-full bg-[#4CAF50] py-3"
                   onPress={continueGame}
                 >
-                  <Text style={styles.buttonText}>
+                  <Text className="text-center text-base font-bold text-white">
                     Continue Game
                     {'\n'}
                     (Lose points if you guess wrong)
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={[styles.button, { backgroundColor: '#2196F3' }]}
+                  className="mb-4 w-4/5 items-center justify-center rounded-full bg-[#2196F3] py-3"
                   onPress={async () => {
                     if (
                       submitToLeaderboard &&
@@ -935,13 +796,17 @@ const GameScreen: React.FC = () => {
                     }
                   }}
                 >
-                  <Text style={styles.buttonText}>New Game</Text>
+                  <Text className="text-center text-base font-bold text-white">
+                    New Game
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={[styles.button, { backgroundColor: '#F44336' }]}
+                  className="mb-4 w-4/5 items-center justify-center rounded-full bg-[#F44336] py-3"
                   onPress={handleReturnToMainMenu}
                 >
-                  <Text style={styles.buttonText}>Return to Main Menu</Text>
+                  <Text className="text-center text-base font-bold text-white">
+                    Return to Main Menu
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>

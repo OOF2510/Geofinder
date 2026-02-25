@@ -4,7 +4,6 @@ import {
   Text,
   Image,
   TouchableOpacity,
-  StyleSheet,
   SafeAreaView,
   Linking,
   // Animated,
@@ -536,18 +535,15 @@ const MainMenu: React.FC = () => {
   // const nextIndex = (currentIndex + 1) % backgroundImages.length;
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.slideshowContainer}>
+    <SafeAreaView className="flex-1">
+      <View className="absolute inset-0 overflow-hidden">
         {/* Current image */}
         {/* <Animated.Image
           key={currentIndex}
           source={backgroundImages[currentIndex]}
-          style={[
-            styles.slideshowImage,
-            {
-              transform: [{ translateX: slideAnim }],
-            },
-          ]}
+          style={{
+            transform: [{ translateX: slideAnim }],
+          }}
           resizeMode="cover"
         /> */}
 
@@ -555,64 +551,78 @@ const MainMenu: React.FC = () => {
         {/* <Animated.Image
           key={nextIndex}
           source={backgroundImages[nextIndex]}
-          style={[
-            styles.slideshowImage,
-            {
-              position: 'absolute',
-              transform: [
-                {
-                  translateX: slideAnim.interpolate({
-                    inputRange: [-screenWidth, 0],
-                    outputRange: [0, screenWidth],
-                  }),
-                },
-              ],
-            },
-          ]}
+          style={{
+            position: 'absolute',
+            transform: [
+              {
+                translateX: slideAnim.interpolate({
+                  inputRange: [-screenWidth, 0],
+                  outputRange: [0, screenWidth],
+                }),
+              },
+            ],
+          }}
           resizeMode="cover"
         /> */}
 
         <Image
           source={backgroundImages[currentIndex]}
-          style={styles.slideshowImage}
+          className="h-full w-full"
           resizeMode="cover"
         />
       </View>
 
-      <View style={styles.content}>
-        <View style={styles.titleContainer}>
-          {/*<Text style={styles.title}>GeoFinder</Text>*/}
+      <View className="flex-1 items-center justify-center p-5">
+        <View className="mb-8 self-center rounded-[14px] px-5 py-3 items-center justify-center">
+          {/*<Text>GeoFinder</Text>*/}
           <Image
             source={require('../../assets/logo.png')}
-            style={styles.logo}
+            className="h-64 w-64 opacity-95"
+            resizeMode="contain"
           />
         </View>
-        <TouchableOpacity style={styles.button} onPress={handleStartGame}>
-          <Text style={styles.buttonText}>Start Game</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.aiButton} onPress={handleStartAiGame}>
-          <Text style={styles.buttonText}>Play vs AI</Text>
+        <TouchableOpacity
+          className="mb-4 w-4/5 items-center justify-center rounded-full bg-[rgba(76,175,80,0.56)] py-3"
+          onPress={handleStartGame}
+        >
+          <Text className="text-lg font-bold text-white">Start Game</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.panoButton}
+          className="mb-4 w-4/5 items-center justify-center rounded-full bg-[rgba(160,9,247,0.56)] py-3"
+          onPress={handleStartAiGame}
+        >
+          <Text className="text-lg font-bold text-white">Play vs AI</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          className="mb-4 w-4/5 items-center justify-center rounded-full bg-[rgba(9,211,247,0.56)] py-3"
           onPress={handleStartPanoGame}
         >
-          <Text style={styles.buttonText}>360° Mode</Text>
+          <Text className="text-lg font-bold text-white">360° Mode</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.leaderboardButton}
+          className="mb-4 w-4/5 items-center justify-center rounded-full bg-[rgba(33,37,243,0.56)] py-3"
           onPress={handleLeaderboard}
         >
-          <Text style={styles.buttonText}>Leaderboard</Text>
+          <Text className="text-lg font-bold text-white">Leaderboard</Text>
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.creditsButton} onPress={handleCredits}>
-        <Text style={styles.creditsButtonText}>Credits</Text>
+      <TouchableOpacity
+        className="absolute bottom-5 left-5 rounded-[15px] border border-[rgba(255,255,255,0.3)] bg-[rgba(0,0,0,0.5)] px-[15px] py-2"
+        onPress={handleCredits}
+      >
+        <Text className="text-xs font-semibold text-[rgba(255,255,255,0.9)]">
+          Credits
+        </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.githubButton} onPress={handleOpenGithub}>
-        <Text style={styles.githubButtonText}>GitHub</Text>
+      <TouchableOpacity
+        className="absolute bottom-5 right-5 rounded-[15px] border border-[rgba(255,255,255,0.3)] bg-[rgba(0,0,0,0.5)] px-[15px] py-2"
+        onPress={handleOpenGithub}
+      >
+        <Text className="text-[10px] font-semibold text-[rgba(255,255,255,0.9)]">
+          GitHub
+        </Text>
       </TouchableOpacity>
 
       {/* Leaderboard Modal */}
@@ -622,19 +632,21 @@ const MainMenu: React.FC = () => {
         animationType="slide"
         onRequestClose={closeLeaderboard}
       >
-        <View style={leaderboardStyles.modalContainer}>
-          <View style={leaderboardStyles.leaderboardBox}>
-            <Text style={leaderboardStyles.leaderboardTitle}>Leaderboard</Text>
+        <View className="flex-1 items-center justify-center bg-[rgba(0,0,0,0.8)]">
+          <View className="max-h-[80%] w-[90%] items-center rounded-[10px] bg-[rgba(30,30,30,1)] p-5">
+            <Text className="mb-5 text-2xl font-bold text-[rgba(255,215,0,1)]">
+              Leaderboard
+            </Text>
 
             {loadingLeaderboard ? (
-              <View style={leaderboardStyles.loadingContainer}>
+              <View className="items-center py-10">
                 <ActivityIndicator size="large" color="#4CAF50" />
-                <Text style={leaderboardStyles.loadingText}>
+                <Text className="mt-2.5 text-base text-white">
                   Loading scores...
                 </Text>
               </View>
             ) : leaderboardData.length > 0 ? (
-              <ScrollView style={leaderboardStyles.scrollContainer}>
+              <ScrollView className="max-h-[400px] w-full">
                 {leaderboardData.map((entry, index) => {
                   const isUserScore = Boolean(
                     entry.gameSessionId &&
@@ -644,25 +656,25 @@ const MainMenu: React.FC = () => {
                   return (
                     <View
                       key={index}
-                      style={[
-                        leaderboardStyles.leaderboardEntry,
-                        isUserScore &&
-                          leaderboardStyles.leaderboardEntryHighlight,
-                      ]}
+                      className={`mb-2 flex-row items-center justify-between rounded-lg px-[15px] py-3 ${
+                        isUserScore
+                          ? 'border border-[rgba(76,175,80,0.6)] bg-[rgba(46,125,50,0.2)]'
+                          : 'bg-[rgba(42,42,42,1)]'
+                      }`}
                     >
-                      <Text style={leaderboardStyles.rankText}>
+                      <Text className="min-w-10 text-base font-bold text-[rgba(76,175,80,1)]">
                         #{entry.rank}
                       </Text>
-                      <Text style={leaderboardStyles.scoreText}>
+                      <Text className="flex-1 text-center text-base font-bold text-white">
                         {entry.score} pts
                       </Text>
-                      <View style={leaderboardStyles.entryMeta}>
-                        <Text style={leaderboardStyles.dateText}>
+                      <View className="flex-row items-center">
+                        <Text className="min-w-20 text-right text-xs text-[rgba(136,136,136,1)]">
                           {new Date(entry.createdAt).toLocaleDateString()}
                         </Text>
                         {isUserScore ? (
-                          <View style={leaderboardStyles.userBadge}>
-                            <Text style={leaderboardStyles.userBadgeText}>
+                          <View className="ml-2 rounded-md border border-[rgba(76,175,80,0.6)] bg-[rgba(76,175,80,0.25)] px-2 py-[2px]">
+                            <Text className="text-xs font-bold text-[rgba(199,234,211,1)]">
                               You
                             </Text>
                           </View>
@@ -673,22 +685,22 @@ const MainMenu: React.FC = () => {
                 })}
               </ScrollView>
             ) : (
-              <View style={leaderboardStyles.emptyContainer}>
-                <Text style={leaderboardStyles.emptyText}>
+              <View className="items-center py-10">
+                <Text className="mb-2.5 text-lg text-white">
                   No scores available yet.
                 </Text>
-                <Text style={leaderboardStyles.emptySubText}>
+                <Text className="text-center text-sm text-[rgba(136,136,136,1)]">
                   Be the first to play and set a high score!
                 </Text>
               </View>
             )}
 
-            <View style={leaderboardStyles.buttonContainer}>
+            <View className="mt-5 w-full items-center">
               <TouchableOpacity
-                style={leaderboardStyles.closeButton}
+                className="w-3/5 items-center justify-center rounded-full bg-[rgba(231,46,46,1)] py-3"
                 onPress={closeLeaderboard}
               >
-                <Text style={leaderboardStyles.closeButtonText}>Close</Text>
+                <Text className="text-base font-bold text-white">Close</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -702,13 +714,15 @@ const MainMenu: React.FC = () => {
         animationType="slide"
         onRequestClose={closeCredits}
       >
-        <View style={creditsStyles.modalContainer}>
-          <View style={creditsStyles.creditsBox}>
-            <Text style={creditsStyles.creditsTitle}>Credits</Text>
+        <View className="flex-1 items-center justify-center bg-[rgba(0,0,0,0.8)]">
+          <View className="max-h-[80%] w-[90%] items-center rounded-[10px] bg-[rgba(30,30,30,1)] p-5">
+            <Text className="mb-5 text-2xl font-bold text-[rgba(255,215,0,1)]">
+              Credits
+            </Text>
 
-            <ScrollView style={creditsStyles.scrollContainer}>
-              <View style={creditsStyles.contentContainer}>
-                <Text style={creditsStyles.creditsText}>
+            <ScrollView className="max-h-[400px] w-full">
+              <View className="w-full px-2.5">
+                <Text className="text-center text-base leading-6 text-white">
                   Images provided via Mapillary, licensed under CC-BY-SA.
                   {'\n'}
                   Map data provided by OpenStreetMap, licensed under ODbL.
@@ -728,18 +742,20 @@ const MainMenu: React.FC = () => {
               </View>
             </ScrollView>
 
-            <View style={creditsStyles.buttonContainer}>
+            <View className="mt-5 w-full flex-row justify-between px-2.5">
               <TouchableOpacity
-                style={creditsStyles.closeButton}
+                className="w-[48%] items-center justify-center rounded-full bg-[rgba(231,46,46,1)] py-3"
                 onPress={closeCredits}
               >
-                <Text style={creditsStyles.closeButtonText}>Close</Text>
+                <Text className="text-base font-bold text-white">Close</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={creditsStyles.closeButton}
+                className="w-[48%] items-center justify-center rounded-full bg-[rgba(231,46,46,1)] py-3"
                 onPress={handleLicences}
               >
-                <Text style={creditsStyles.closeButtonText}>Licences</Text>
+                <Text className="text-base font-bold text-white">
+                  Licences
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -748,296 +764,5 @@ const MainMenu: React.FC = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  slideshowContainer: {
-    ...StyleSheet.absoluteFillObject,
-    overflow: 'hidden',
-  },
-  slideshowImage: {
-    width: '100%',
-    height: '100%',
-  },
-  content: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-  },
-  titleContainer: {
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    borderRadius: 14,
-    marginBottom: 32,
-    alignItems: 'center',
-    justifyContent: 'center',
-    alignSelf: 'center',
-  },
-  logo: {
-    width: 256,
-    height: 256,
-    resizeMode: 'contain',
-    opacity: 0.95,
-  },
-
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: 'rgba(255,255,255,1)',
-  },
-  button: {
-    width: '80%',
-    marginBottom: 15,
-    borderRadius: 25,
-    backgroundColor: 'rgba(76,175,80,0.56)',
-    paddingVertical: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  aiButton: {
-    width: '80%',
-    marginBottom: 15,
-    borderRadius: 25,
-    backgroundColor: 'rgba(160, 9, 247, 0.56)',
-    paddingVertical: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonText: {
-    color: 'rgba(255,255,255,1)',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  leaderboardButton: {
-    width: '80%',
-    marginBottom: 15,
-    borderRadius: 25,
-    backgroundColor: 'rgba(33,37,243,0.56)',
-    paddingVertical: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  panoButton: {
-    width: '80%',
-    marginBottom: 15,
-    borderRadius: 25,
-    backgroundColor: 'rgba(9, 211, 247, 0.56)',
-    paddingVertical: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  creditsButton: {
-    position: 'absolute',
-    bottom: 20,
-    left: 20,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    paddingHorizontal: 15,
-    paddingVertical: 8,
-    borderRadius: 15,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.3)',
-  },
-  creditsButtonText: {
-    color: 'rgba(255,255,255,0.9)',
-    fontSize: 12,
-    fontWeight: '600',
-  },
-  githubButton: {
-    position: 'absolute',
-    bottom: 20,
-    right: 20,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    paddingHorizontal: 15,
-    paddingVertical: 8,
-    borderRadius: 15,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.3)',
-  },
-  githubButtonText: {
-    color: 'rgba(255,255,255,0.9)',
-    fontSize: 10,
-    fontWeight: '600',
-  },
-});
-
-const leaderboardStyles = StyleSheet.create({
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.8)',
-  },
-  leaderboardBox: {
-    backgroundColor: 'rgba(30,30,30,1)',
-    padding: 20,
-    borderRadius: 10,
-    width: '90%',
-    maxHeight: '80%',
-    alignItems: 'center',
-  },
-  leaderboardTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'rgba(255, 215, 0, 1)',
-    marginBottom: 20,
-  },
-  scrollContainer: {
-    width: '100%',
-    maxHeight: 400,
-  },
-  leaderboardEntry: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 15,
-    marginBottom: 8,
-    backgroundColor: 'rgba(42,42,42,1)',
-    borderRadius: 8,
-  },
-  leaderboardEntryHighlight: {
-    borderWidth: 1,
-    borderColor: 'rgba(76,175,80,0.6)',
-    backgroundColor: 'rgba(46, 125, 50, 0.2)',
-  },
-  rankText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: 'rgba(76,175,80,1)',
-    minWidth: 40,
-  },
-  scoreText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: 'rgba(255,255,255,1)',
-    flex: 1,
-    textAlign: 'center',
-  },
-  entryMeta: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  dateText: {
-    fontSize: 12,
-    color: 'rgba(136,136,136,1)',
-    minWidth: 80,
-    textAlign: 'right',
-  },
-  userBadge: {
-    backgroundColor: 'rgba(76,175,80,0.25)',
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    borderRadius: 6,
-    borderWidth: 1,
-    borderColor: 'rgba(76,175,80,0.6)',
-    marginLeft: 8,
-  },
-  userBadgeText: {
-    color: 'rgba(199, 234, 211, 1)',
-    fontSize: 12,
-    fontWeight: '700',
-  },
-  loadingContainer: {
-    alignItems: 'center',
-    paddingVertical: 40,
-  },
-  loadingText: {
-    color: 'rgba(255,255,255,1)',
-    fontSize: 16,
-    marginTop: 10,
-  },
-  emptyContainer: {
-    alignItems: 'center',
-    paddingVertical: 40,
-  },
-  emptyText: {
-    color: 'rgba(255,255,255,1)',
-    fontSize: 18,
-    marginBottom: 10,
-  },
-  emptySubText: {
-    color: 'rgba(136,136,136,1)',
-    fontSize: 14,
-    textAlign: 'center',
-  },
-  buttonContainer: {
-    width: '100%',
-    marginTop: 20,
-    alignItems: 'center',
-  },
-  closeButton: {
-    width: '60%',
-    borderRadius: 25,
-    backgroundColor: 'rgba(231, 46, 46, 1)',
-    paddingVertical: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  closeButtonText: {
-    color: 'rgba(255,255,255,1)',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-});
-
-const creditsStyles = StyleSheet.create({
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.8)',
-  },
-  creditsBox: {
-    backgroundColor: 'rgba(30,30,30,1)',
-    padding: 20,
-    borderRadius: 10,
-    width: '90%',
-    maxHeight: '80%',
-    alignItems: 'center',
-  },
-  creditsTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'rgba(255, 215, 0, 1)',
-    marginBottom: 20,
-  },
-  scrollContainer: {
-    width: '100%',
-    maxHeight: 400,
-  },
-  contentContainer: {
-    width: '100%',
-    paddingHorizontal: 10,
-  },
-  creditsText: {
-    color: 'rgba(255,255,255,1)',
-    fontSize: 16,
-    lineHeight: 24,
-    textAlign: 'center',
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 20,
-    width: '100%',
-    paddingHorizontal: 10,
-  },
-  closeButton: {
-    width: '48%',
-    borderRadius: 25,
-    backgroundColor: 'rgba(231, 46, 46, 1)',
-    paddingVertical: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  closeButtonText: {
-    color: 'rgba(255,255,255,1)',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-});
 
 export default MainMenu;
