@@ -13,12 +13,8 @@ import {
   AppStateStatus,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { RouteProp } from '@react-navigation/native';
-import {
-  NavigationProp,
-  RootStackParamList,
-} from '../navigation/navigationTypes';
+import { useNavigation } from '@react-navigation/native';
+import { NavigationProp } from '../navigation/navigationTypes';
 import { normalizeCountry, matchGuess } from '../services/geoApiUtils';
 import {
   geoApiClient,
@@ -578,19 +574,7 @@ const PanoGameScreen: React.FC = () => {
       if (nextState === 'background' || nextState === 'inactive') {
         clearSummaryTimeout();
         if (!skipPersistRef.current) {
-          const snapshot = lastStateRef.current;
-          if (snapshot) {
-            try {
-              AsyncStorage.setItem(
-                GAME_STATE_STORAGE_KEY,
-                JSON.stringify({ ...snapshot, savedAt: Date.now() }),
-              ).catch(error =>
-                console.error('Failed to persist pano game state:', error),
-              );
-            } catch (error) {
-              console.error('Failed to persist pano game state:', error);
-            }
-          }
+          persistGameState();
         }
       }
     };
@@ -600,7 +584,7 @@ const PanoGameScreen: React.FC = () => {
       handleAppStateChange,
     );
     return () => subscription.remove();
-  }, []);
+  }, [persistGameState]);
 
   useEffect(() => {
     let isMounted = true;
@@ -631,25 +615,7 @@ const PanoGameScreen: React.FC = () => {
       prefetchAborted = true;
       clearSummaryTimeout();
       if (!skipPersistRef.current) {
-        const snapshot = lastStateRef.current;
-        if (snapshot) {
-          try {
-            AsyncStorage.setItem(
-              GAME_STATE_STORAGE_KEY,
-              JSON.stringify({ ...snapshot, savedAt: Date.now() }),
-            ).catch(error =>
-              console.error(
-                'Failed to persist pano game state on unmount:',
-                error,
-              ),
-            );
-          } catch (error) {
-            console.error(
-              'Failed to persist pano game state on unmount:',
-              error,
-            );
-          }
-        }
+        persistGameState();
       } else {
         skipPersistRef.current = false;
       }

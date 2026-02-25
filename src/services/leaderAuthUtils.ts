@@ -1,4 +1,3 @@
-import { Platform } from 'react-native';
 import appCheck from '@react-native-firebase/app-check';
 import { decode } from 'base-64';
 import { initializeFirebase } from './firebase';

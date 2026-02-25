@@ -79,28 +79,6 @@ const MainMenu: React.FC = () => {
   const isMountedRef = useRef<boolean>(true);
   const appActiveRef = useRef<boolean>(true);
 
-  const persistMainMenuState = useCallback(async (): Promise<void> => {
-    const snapshot = lastStateRef.current;
-
-    if (!snapshot) {
-      try {
-        await AsyncStorage.removeItem(MAIN_MENU_STATE_KEY);
-      } catch (error) {
-        console.error('Failed to clear main menu state:', error);
-      }
-      return;
-    }
-
-    try {
-      await AsyncStorage.setItem(
-        MAIN_MENU_STATE_KEY,
-        JSON.stringify({ ...snapshot, savedAt: Date.now() }),
-      );
-    } catch (error) {
-      console.error('Failed to persist main menu state:', error);
-    }
-  }, []);
-
   const clearPersistedMainMenuState = useCallback(async (): Promise<void> => {
     try {
       await AsyncStorage.removeItem(MAIN_MENU_STATE_KEY);
@@ -527,10 +505,6 @@ const MainMenu: React.FC = () => {
   //     }
   //   };
   // }, [currentIndex]); // Only depend on currentIndex
-
-  {
-    /* Initialization is now handled after cache load inside loadCachedImages */
-  }
 
   // const nextIndex = (currentIndex + 1) % backgroundImages.length;
 
