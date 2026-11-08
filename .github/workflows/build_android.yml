@@ -229,7 +229,7 @@ jobs:
           grep -E 'versionCode|versionName' android/app/build.gradle
 
       - name: Setup Java & Android SDK
-        uses: android-actions/setup-android@v3
+        uses: android-actions/setup-android@v4
 
       - name: Cache NDK and specific build-tools
         uses: actions/cache@v4
